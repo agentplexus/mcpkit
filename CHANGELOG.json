@@ -7,38 +7,43 @@
   "maintainers": ["grokify", "johncwang@gmail.com"],
   "releases": [
     {
-      "version": "0.1.0",
+      "version": "v0.1.0",
       "date": "2026-01-10",
+      "highlights": [
+        {"description": "Library-first MCP runtime: define tools, prompts, and resources once, invoke them directly as Go functions or expose over MCP transports"},
+        {"description": "Zero JSON-RPC overhead in library mode for unit testing, embedding, and serverless use cases"},
+        {"description": "Full MCP SDK compatibility with escape hatch for advanced features"}
+      ],
       "added": [
-        {"description": "Runtime type wrapping mcp.Server with dual execution modes (library and server)"},
-        {"description": "New() constructor with Options for runtime configuration"},
-        {"description": "MCPServer() escape hatch for advanced MCP SDK access"},
-        {"description": "Implementation() getter for server identity"},
-        {"description": "AddTool[In, Out]() generic helper with automatic schema inference"},
-        {"description": "AddToolHandler() low-level tool registration"},
-        {"description": "CallTool() for library-mode direct invocation"},
-        {"description": "RemoveTools(), ListTools(), HasTool(), ToolCount() tool management methods"},
-        {"description": "AddPrompt() for prompt registration"},
-        {"description": "GetPrompt() for library-mode direct invocation"},
-        {"description": "RemovePrompts(), ListPrompts(), HasPrompt(), PromptCount() prompt management methods"},
-        {"description": "AddResource() for static resource registration"},
-        {"description": "AddResourceTemplate() for dynamic URI template resources (server mode only)"},
-        {"description": "ReadResource() for library-mode direct invocation"},
-        {"description": "RemoveResources(), RemoveResourceTemplates() resource removal methods"},
-        {"description": "ListResources(), HasResource(), ResourceCount() resource management methods"},
-        {"description": "ServeStdio() for stdio transport (subprocess mode)"},
-        {"description": "ServeIO() for custom IO streams"},
-        {"description": "Serve() for custom MCP transports"},
-        {"description": "Connect() for session-based connections"},
-        {"description": "StreamableHTTPHandler() for HTTP/SSE transport"},
-        {"description": "SSEHandler() for legacy SSE transport"},
-        {"description": "InMemorySession() for testing with full MCP semantics"}
+        {"description": "`Runtime` type wrapping `mcp.Server` with dual execution modes (library and server)", "commit": "1e973a1"},
+        {"description": "`New()` constructor with `Options` for runtime configuration", "commit": "1e973a1"},
+        {"description": "`MCPServer()` escape hatch for advanced MCP SDK access", "commit": "1e973a1"},
+        {"description": "`Implementation()` getter for server identity", "commit": "1e973a1"},
+        {"description": "`AddTool[In, Out]()` generic helper with automatic schema inference", "commit": "f7b0c03"},
+        {"description": "`AddToolHandler()` low-level tool registration", "commit": "f7b0c03"},
+        {"description": "`CallTool()` for library-mode direct invocation", "commit": "1e973a1"},
+        {"description": "`RemoveTools()`, `ListTools()`, `HasTool()`, `ToolCount()` tool management methods", "commit": "1e973a1"},
+        {"description": "`AddPrompt()` for prompt registration", "commit": "2f85413"},
+        {"description": "`GetPrompt()` for library-mode direct invocation", "commit": "2f85413"},
+        {"description": "`RemovePrompts()`, `ListPrompts()`, `HasPrompt()`, `PromptCount()` prompt management methods", "commit": "2f85413"},
+        {"description": "`AddResource()` for static resource registration", "commit": "a7e7816"},
+        {"description": "`AddResourceTemplate()` for dynamic URI template resources (server mode only)", "commit": "a7e7816"},
+        {"description": "`ReadResource()` for library-mode direct invocation", "commit": "a7e7816"},
+        {"description": "`RemoveResources()`, `RemoveResourceTemplates()` resource removal methods", "commit": "a7e7816"},
+        {"description": "`ListResources()`, `HasResource()`, `ResourceCount()` resource management methods", "commit": "a7e7816"},
+        {"description": "`ServeStdio()` for stdio transport (subprocess mode)", "commit": "d9ed342"},
+        {"description": "`ServeIO()` for custom IO streams", "commit": "d9ed342"},
+        {"description": "`Serve()` for custom MCP transports", "commit": "d9ed342"},
+        {"description": "`Connect()` for session-based connections", "commit": "d9ed342"},
+        {"description": "`StreamableHTTPHandler()` for HTTP/SSE transport", "commit": "d9ed342"},
+        {"description": "`SSEHandler()` for legacy SSE transport", "commit": "d9ed342"},
+        {"description": "`InMemorySession()` for testing with full MCP semantics", "commit": "d9ed342"}
       ],
       "documentation": [
-        {"description": "Comprehensive README with library and server mode examples"},
-        {"description": "Feature comparison matrix (library vs server mode)"},
-        {"description": "MCP feature adoption guidance"},
-        {"description": "Full API reference documentation"}
+        {"description": "Comprehensive README with library and server mode examples", "commit": "9d08047"},
+        {"description": "Feature comparison matrix (library vs server mode)", "commit": "9d08047"},
+        {"description": "MCP feature adoption guidance", "commit": "9d08047"},
+        {"description": "Full API reference documentation", "commit": "9d08047"}
       ]
     }
   ]
