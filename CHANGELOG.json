@@ -15,19 +15,19 @@
         {"description": "Improved error handling following Go best practices"}
       ],
       "changed": [
-        {"description": "Module path changed from `github.com/grokify/mcpruntime` to `github.com/agentplexus/mcpkit`"},
-        {"description": "Core runtime code moved to `runtime/` subpackage - import `github.com/agentplexus/mcpkit/runtime`"},
-        {"description": "OAuth2 server moved from `oauth2server/` to `oauth2/` - import `github.com/agentplexus/mcpkit/oauth2`"},
-        {"description": "Package references changed from `mcpkit.` to `runtime.` for runtime types"}
+        {"description": "Module path changed from `github.com/grokify/mcpruntime` to `github.com/agentplexus/mcpkit`", "commit": "692c7c7"},
+        {"description": "Core runtime code moved to `runtime/` subpackage - import `github.com/agentplexus/mcpkit/runtime`", "commit": "298f19b"},
+        {"description": "OAuth2 server moved from `oauth2server/` to `oauth2/` - import `github.com/agentplexus/mcpkit/oauth2`", "commit": "298f19b"},
+        {"description": "Package references changed from `mcpkit.` to `runtime.` for runtime types", "commit": "298f19b"}
       ],
       "fixed": [
-        {"description": "Error handling for `fmt.Fprintf` in OAuth login error page"},
-        {"description": "Error handling for `resp.Body.Close()` in all test files"}
+        {"description": "Error handling for `fmt.Fprintf` in OAuth login error page", "commit": "692c7c7"},
+        {"description": "Error handling for `resp.Body.Close()` in all test files", "commit": "692c7c7"}
       ],
       "breaking": [
-        {"description": "Import path changed: update `github.com/grokify/mcpruntime` to `github.com/agentplexus/mcpkit/runtime`"},
-        {"description": "Package name changed: update `mcpruntime.` or `mcpkit.` references to `runtime.`"},
-        {"description": "OAuth2 server import path changed: update `oauth2server` to `github.com/agentplexus/mcpkit/oauth2`"}
+        {"description": "Import path changed: update `github.com/grokify/mcpruntime` to `github.com/agentplexus/mcpkit/runtime`", "commit": "298f19b"},
+        {"description": "Package name changed: update `mcpruntime.` or `mcpkit.` references to `runtime.`", "commit": "298f19b"},
+        {"description": "OAuth2 server import path changed: update `oauth2server` to `github.com/agentplexus/mcpkit/oauth2`", "commit": "298f19b"}
       ]
     },
     {
