@@ -2,11 +2,11 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-// Package mcpruntime provides a library-first runtime for building MCP servers
+// Package mcpkit provides a library-first runtime for building MCP servers
 // with interchangeable execution modes: in-process library calls and MCP server
 // transports (stdio, HTTP).
 //
-// mcpruntime wraps the official MCP Go SDK (github.com/modelcontextprotocol/go-sdk)
+// mcpkit wraps the official MCP Go SDK (github.com/modelcontextprotocol/go-sdk)
 // to provide a unified API where tools, prompts, and resources are defined once
 // and can be invoked either directly as library calls or exposed over standard
 // MCP transports.
@@ -22,8 +22,8 @@
 //   - Building local pipelines
 //   - Serverless runtimes
 //
-// mcpruntime treats MCP as an "edge protocol" while providing a library-first
-// internal API. Tools registered with mcpruntime use the exact same handler
+// mcpkit treats MCP as an "edge protocol" while providing a library-first
+// internal API. Tools registered with mcpkit use the exact same handler
 // signatures as the MCP SDK, ensuring behavior is identical regardless of
 // execution mode.
 //
@@ -32,7 +32,7 @@
 // Create a runtime, register tools, and use them either directly or via MCP:
 //
 //	// Create runtime
-//	rt := mcpruntime.New(&mcp.Implementation{
+//	rt := mcpkit.New(&mcp.Implementation{
 //		Name:    "my-server",
 //		Version: "v1.0.0",
 //	}, nil)
@@ -80,4 +80,4 @@
 //   - [Runtime.ServeStdio] for stdio transport (subprocess)
 //   - [Runtime.ServeHTTP] for HTTP transport
 //   - [Runtime.MCPServer] to access the underlying mcp.Server directly
-package mcpruntime
+package mcpkit

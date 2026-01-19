@@ -2,7 +2,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-package mcpruntime
+package mcpkit
 
 import (
 	"context"
@@ -23,7 +23,7 @@ import (
 // Example:
 //
 //	func main() {
-//		rt := mcpruntime.New(&mcp.Implementation{Name: "my-server", Version: "v1.0.0"}, nil)
+//		rt := mcpkit.New(&mcp.Implementation{Name: "my-server", Version: "v1.0.0"}, nil)
 //		// ... register tools ...
 //		if err := rt.ServeStdio(context.Background()); err != nil {
 //			log.Fatal(err)
@@ -72,7 +72,7 @@ func (r *Runtime) Connect(ctx context.Context, transport mcp.Transport) (*mcp.Se
 //
 // Example:
 //
-//	rt := mcpruntime.New(&mcp.Implementation{Name: "my-server", Version: "v1.0.0"}, nil)
+//	rt := mcpkit.New(&mcp.Implementation{Name: "my-server", Version: "v1.0.0"}, nil)
 //	// ... register tools ...
 //	http.Handle("/mcp", rt.StreamableHTTPHandler(nil))
 //	http.ListenAndServe(":8080", nil)

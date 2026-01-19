@@ -2,7 +2,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-package mcpruntime
+package mcpkit
 
 import (
 	"context"
@@ -42,7 +42,11 @@ func TestOAuthServer_TokenEndpoint(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusOK {
 			body, _ := io.ReadAll(resp.Body)
@@ -74,7 +78,11 @@ func TestOAuthServer_TokenEndpoint(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusOK {
 			body, _ := io.ReadAll(resp.Body)
@@ -91,7 +99,11 @@ func TestOAuthServer_TokenEndpoint(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusUnauthorized {
 			t.Errorf("expected 401, got %d", resp.StatusCode)
@@ -107,7 +119,11 @@ func TestOAuthServer_TokenEndpoint(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusBadRequest {
 			t.Errorf("expected 400, got %d", resp.StatusCode)
@@ -119,7 +135,11 @@ func TestOAuthServer_TokenEndpoint(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusMethodNotAllowed {
 			t.Errorf("expected 405, got %d", resp.StatusCode)
@@ -150,7 +170,11 @@ func TestOAuthServer_BearerAuthMiddleware(t *testing.T) {
 	if err != nil {
 		t.Fatalf("request failed: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			t.Logf("warning: failed to close response body: %v", err)
+		}
+	}()
 
 	var tokenResp tokenResponse
 	if err := json.NewDecoder(resp.Body).Decode(&tokenResp); err != nil {
@@ -176,7 +200,11 @@ func TestOAuthServer_BearerAuthMiddleware(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusOK {
 			t.Errorf("expected 200, got %d", resp.StatusCode)
@@ -191,7 +219,11 @@ func TestOAuthServer_BearerAuthMiddleware(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusUnauthorized {
 			t.Errorf("expected 401, got %d", resp.StatusCode)
@@ -205,7 +237,11 @@ func TestOAuthServer_BearerAuthMiddleware(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusUnauthorized {
 			t.Errorf("expected 401, got %d", resp.StatusCode)
@@ -306,7 +342,11 @@ func TestServeHTTP_WithOAuth(t *testing.T) {
 	if err != nil {
 		t.Fatalf("token request failed: %v", err)
 	}
-	defer tokenResp.Body.Close()
+	defer func() {
+		if err := tokenResp.Body.Close(); err != nil {
+			t.Logf("warning: failed to close response body: %v", err)
+		}
+	}()
 
 	if tokenResp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(tokenResp.Body)
@@ -324,7 +364,9 @@ func TestServeHTTP_WithOAuth(t *testing.T) {
 	if err != nil {
 		t.Fatalf("MCP request failed: %v", err)
 	}
-	resp.Body.Close()
+	if err := resp.Body.Close(); err != nil {
+		t.Logf("warning: failed to close response body: %v", err)
+	}
 
 	if resp.StatusCode != http.StatusUnauthorized {
 		t.Errorf("expected 401 without token, got %d", resp.StatusCode)
@@ -339,7 +381,9 @@ func TestServeHTTP_WithOAuth(t *testing.T) {
 	if err != nil {
 		t.Fatalf("MCP request with token failed: %v", err)
 	}
-	resp.Body.Close()
+	if err := resp.Body.Close(); err != nil {
+		t.Logf("warning: failed to close response body: %v", err)
+	}
 
 	// Should not be 401 anymore (token is valid)
 	if resp.StatusCode == http.StatusUnauthorized {

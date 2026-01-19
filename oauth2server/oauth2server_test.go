@@ -66,7 +66,11 @@ func TestDynamicClientRegistration(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusCreated {
 			body, _ := io.ReadAll(resp.Body)
@@ -95,7 +99,11 @@ func TestDynamicClientRegistration(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusBadRequest {
 			t.Errorf("expected 400, got %d", resp.StatusCode)
@@ -173,7 +181,11 @@ func TestAuthorizationFlow(t *testing.T) {
 	if err != nil {
 		t.Fatalf("registration failed: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			t.Logf("warning: failed to close response body: %v", err)
+		}
+	}()
 
 	var client RegistrationResponse
 	if err := json.NewDecoder(resp.Body).Decode(&client); err != nil {
@@ -203,7 +215,11 @@ func TestAuthorizationFlow(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusOK {
 			body, _ := io.ReadAll(resp.Body)
@@ -235,7 +251,11 @@ func TestAuthorizationFlow(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		// Should redirect with error
 		if resp.StatusCode != http.StatusFound {
@@ -269,7 +289,11 @@ func TestTokenEndpoint(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusBadRequest {
 			t.Errorf("expected 400, got %d", resp.StatusCode)
@@ -283,7 +307,11 @@ func TestTokenEndpoint(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusBadRequest {
 			t.Errorf("expected 400, got %d", resp.StatusCode)
@@ -308,13 +336,17 @@ func TestMetadataEndpoint(t *testing.T) {
 	if err != nil {
 		t.Fatalf("request failed: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			t.Logf("warning: failed to close response body: %v", err)
+		}
+	}()
 
 	if resp.StatusCode != http.StatusOK {
 		t.Errorf("expected 200, got %d", resp.StatusCode)
 	}
 
-	var metadata map[string]interface{}
+	var metadata map[string]any
 	if err := json.NewDecoder(resp.Body).Decode(&metadata); err != nil {
 		t.Fatalf("failed to decode metadata: %v", err)
 	}
@@ -381,13 +413,17 @@ func TestProtectedResourceMetadata(t *testing.T) {
 	if err != nil {
 		t.Fatalf("request failed: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			t.Logf("warning: failed to close response body: %v", err)
+		}
+	}()
 
 	if resp.StatusCode != http.StatusOK {
 		t.Errorf("expected 200, got %d", resp.StatusCode)
 	}
 
-	var metadata map[string]interface{}
+	var metadata map[string]any
 	if err := json.NewDecoder(resp.Body).Decode(&metadata); err != nil {
 		t.Fatalf("failed to decode metadata: %v", err)
 	}
@@ -461,7 +497,11 @@ func TestBearerAuthMiddleware(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusUnauthorized {
 			t.Errorf("expected 401, got %d", resp.StatusCode)
@@ -484,7 +524,11 @@ func TestBearerAuthMiddleware(t *testing.T) {
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
-		defer resp.Body.Close()
+		defer func() {
+			if err := resp.Body.Close(); err != nil {
+				t.Logf("warning: failed to close response body: %v", err)
+			}
+		}()
 
 		if resp.StatusCode != http.StatusUnauthorized {
 			t.Errorf("expected 401, got %d", resp.StatusCode)

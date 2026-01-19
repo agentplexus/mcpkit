@@ -2,7 +2,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-package mcpruntime
+package mcpkit
 
 import (
 	"context"
@@ -15,7 +15,7 @@ import (
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
-// Runtime is the core type for mcpruntime. It wraps an MCP Server and provides
+// Runtime is the core type for mcpkit. It wraps an MCP Server and provides
 // both library-mode direct invocation and transport-based MCP server capabilities.
 //
 // A Runtime should be created with [New] and configured with tools, prompts,
@@ -70,7 +70,7 @@ type Options struct {
 // The options parameter may be nil to use default options.
 func New(impl *mcp.Implementation, opts *Options) *Runtime {
 	if impl == nil {
-		panic("mcpruntime: nil Implementation")
+		panic("mcpkit: nil Implementation")
 	}
 
 	if opts == nil {
@@ -104,10 +104,10 @@ func New(impl *mcp.Implementation, opts *Options) *Runtime {
 //
 // This is an escape hatch for scenarios where direct access to the MCP SDK
 // server is needed, such as plugging into existing MCP infrastructure or
-// accessing features not yet exposed by mcpruntime.
+// accessing features not yet exposed by mcpkit.
 //
 // Use with caution: modifications to the returned server may not be reflected
-// in mcpruntime's library-mode dispatch.
+// in mcpkit's library-mode dispatch.
 func (r *Runtime) MCPServer() *mcp.Server {
 	return r.server
 }

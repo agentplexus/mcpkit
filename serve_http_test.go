@@ -2,7 +2,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-package mcpruntime
+package mcpkit
 
 import (
 	"context"
@@ -195,7 +195,11 @@ func TestServeHTTP_AcceptsConnections(t *testing.T) {
 		// Server might not have started, that's OK for this test
 		t.Skipf("could not connect to server: %v", err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			t.Logf("warning: failed to close response body: %v", err)
+		}
+	}()
 
 	// MCP endpoint should respond (might be an error response since we're
 	// not sending proper MCP protocol, but it should respond)

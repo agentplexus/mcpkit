@@ -2,7 +2,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-package mcpruntime
+package mcpkit
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/grokify/mcpruntime/oauth2server"
+	"github.com/agentplexus/mcpkit/oauth2server"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"golang.ngrok.com/ngrok"
 	"golang.ngrok.com/ngrok/config"
@@ -162,7 +162,7 @@ type HTTPServerResult struct {
 //
 // Example without ngrok:
 //
-//	result, err := rt.ServeHTTP(ctx, &mcpruntime.HTTPServerOptions{
+//	result, err := rt.ServeHTTP(ctx, &mcpkit.HTTPServerOptions{
 //	    Addr: ":8080",
 //	})
 //	if err != nil {
@@ -172,8 +172,8 @@ type HTTPServerResult struct {
 //
 // Example with ngrok:
 //
-//	result, err := rt.ServeHTTP(ctx, &mcpruntime.HTTPServerOptions{
-//	    Ngrok: &mcpruntime.NgrokOptions{
+//	result, err := rt.ServeHTTP(ctx, &mcpkit.HTTPServerOptions{
+//	    Ngrok: &mcpkit.NgrokOptions{
 //	        Authtoken: os.Getenv("NGROK_AUTHTOKEN"),
 //	    },
 //	})

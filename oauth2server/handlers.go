@@ -934,7 +934,7 @@ func (s *Server) renderLoginPage(w http.ResponseWriter, data *loginPageData) {
 func (s *Server) renderLoginError(w http.ResponseWriter, message string) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusBadRequest)
-	fmt.Fprintf(w, `<!DOCTYPE html>
+	_, err := fmt.Fprintf(w, `<!DOCTYPE html>
 <html>
 <head><title>Error</title></head>
 <body>
@@ -942,6 +942,9 @@ func (s *Server) renderLoginError(w http.ResponseWriter, message string) {
 <p>%s</p>
 </body>
 </html>`, template.HTMLEscapeString(message))
+	if err != nil {
+		s.logger.Warn("failed to write login error response", "error", err)
+	}
 }
 
 // BearerAuthMiddleware returns middleware that validates Bearer tokens

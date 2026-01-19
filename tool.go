@@ -2,7 +2,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-package mcpruntime
+package mcpkit
 
 import (
 	"context"
@@ -57,7 +57,7 @@ func (r *Runtime) AddToolHandler(t *mcp.Tool, h mcp.ToolHandler) {
 //		Sum int `json:"sum"`
 //	}
 //
-//	mcpruntime.AddTool(rt, &mcp.Tool{
+//	mcpkit.AddTool(rt, &mcp.Tool{
 //		Name:        "add",
 //		Description: "Add two numbers",
 //	}, func(ctx context.Context, req *mcp.CallToolRequest, in AddInput) (*mcp.CallToolResult, AddOutput, error) {
