@@ -4,12 +4,12 @@
 
 ## Overview
 
-This release adds OAuth 2.1 authentication and HTTP server capabilities to mcpruntime, enabling deployment of MCP servers that work with ChatGPT.com and other OAuth-requiring clients. The new `ServeHTTP()` method provides a complete HTTP transport with optional ngrok tunnel integration for public URL exposure.
+This release adds OAuth 2.1 authentication and HTTP server capabilities to mcpkit, enabling deployment of MCP servers that work with ChatGPT.com and other OAuth-requiring clients. The new `ServeHTTP()` method provides a complete HTTP transport with optional ngrok tunnel integration for public URL exposure.
 
 ## Installation
 
 ```bash
-go get github.com/grokify/mcpruntime@v0.2.0
+go get github.com/agentplexus/mcpkit@v0.2.0
 ```
 
 Requires Go 1.23+ and MCP Go SDK v1.2.0+.
@@ -27,13 +27,13 @@ Requires Go 1.23+ and MCP Go SDK v1.2.0+.
 New `ServeHTTP()` method provides a complete HTTP transport with graceful shutdown:
 
 ```go
-result, err := rt.ServeHTTP(ctx, &mcpruntime.HTTPServerOptions{
+result, err := rt.ServeHTTP(ctx, &mcpkit.HTTPServerOptions{
     Addr: ":8080",
-    Ngrok: &mcpruntime.NgrokOptions{
+    Ngrok: &mcpkit.NgrokOptions{
         Enabled: true,
         Domain:  "my-mcp-server.ngrok.io",
     },
-    OnReady: func(r mcpruntime.HTTPServerResult) {
+    OnReady: func(r mcpkit.HTTPServerResult) {
         fmt.Printf("Server ready at %s\n", r.PublicURL)
     },
 })
@@ -44,9 +44,9 @@ result, err := rt.ServeHTTP(ctx, &mcpruntime.HTTPServerOptions{
 Full OAuth 2.1 implementation required by ChatGPT.com:
 
 ```go
-result, err := rt.ServeHTTP(ctx, &mcpruntime.HTTPServerOptions{
+result, err := rt.ServeHTTP(ctx, &mcpkit.HTTPServerOptions{
     Addr: ":8080",
-    OAuth2: &mcpruntime.OAuth2Options{
+    OAuth2: &mcpkit.OAuth2Options{
         Issuer:   "https://my-mcp-server.example.com",
         ClientID: "chatgpt",
         // PKCE is automatically enforced per RFC 7636
@@ -66,9 +66,9 @@ The `oauth2server` package implements:
 Protect MCP endpoints with bearer token middleware:
 
 ```go
-result, err := rt.ServeHTTP(ctx, &mcpruntime.HTTPServerOptions{
+result, err := rt.ServeHTTP(ctx, &mcpkit.HTTPServerOptions{
     Addr: ":8080",
-    OAuth: &mcpruntime.OAuthOptions{
+    OAuth: &mcpkit.OAuthOptions{
         ClientID:     "my-client",
         ClientSecret: "my-secret",
     },
@@ -109,18 +109,18 @@ http.Handle("/mcp", rt.StreamableHTTPHandler(nil))
 http.ListenAndServe(":8080", nil)
 
 // After (v0.2.0) - integrated HTTP server
-rt.ServeHTTP(ctx, &mcpruntime.HTTPServerOptions{Addr: ":8080"})
+rt.ServeHTTP(ctx, &mcpkit.HTTPServerOptions{Addr: ":8080"})
 ```
 
 To add OAuth 2.1 for ChatGPT.com:
 
 ```go
-rt.ServeHTTP(ctx, &mcpruntime.HTTPServerOptions{
+rt.ServeHTTP(ctx, &mcpkit.HTTPServerOptions{
     Addr: ":8080",
-    OAuth2: &mcpruntime.OAuth2Options{
+    OAuth2: &mcpkit.OAuth2Options{
         Issuer: "https://your-domain.com",
     },
-    Ngrok: &mcpruntime.NgrokOptions{Enabled: true},
+    Ngrok: &mcpkit.NgrokOptions{Enabled: true},
 })
 ```
 
@@ -141,8 +141,8 @@ New dependencies added:
 
 ## Links
 
-- [GitHub Repository](https://github.com/grokify/mcpruntime)
-- [Go Package Documentation](https://pkg.go.dev/github.com/grokify/mcpruntime)
+- [GitHub Repository](https://github.com/agentplexus/mcpkit)
+- [Go Package Documentation](https://pkg.go.dev/github.com/agentplexus/mcpkit)
 - [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk)
 - [Model Context Protocol Specification](https://modelcontextprotocol.io/)
 - [ChatGPT MCP Integration Guide](https://platform.openai.com/docs/actions/mcp)

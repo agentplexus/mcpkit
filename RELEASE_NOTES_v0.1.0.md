@@ -4,12 +4,12 @@
 
 ## Overview
 
-This is the initial release of `mcpruntime`, a library-first runtime for building MCP (Model Context Protocol) servers in Go. It wraps the official [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk) to provide a unified API where tools, prompts, and resources can be invoked either directly as library calls or exposed over standard MCP transports.
+This is the initial release of `mcpkit`, a library-first runtime for building MCP (Model Context Protocol) servers in Go. It wraps the official [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk) to provide a unified API where tools, prompts, and resources can be invoked either directly as library calls or exposed over standard MCP transports.
 
 ## Installation
 
 ```bash
-go get github.com/grokify/mcpruntime@v0.1.0
+go get github.com/agentplexus/mcpkit@v0.1.0
 ```
 
 Requires Go 1.23+ and MCP Go SDK v1.2.0+.
@@ -24,10 +24,10 @@ Define capabilities once, use them two ways:
 - **Server Mode**: Standard MCP transports (stdio, HTTP, SSE)
 
 ```go
-rt := mcpruntime.New(&mcp.Implementation{Name: "my-server", Version: "v1.0.0"}, nil)
+rt := mcpkit.New(&mcp.Implementation{Name: "my-server", Version: "v1.0.0"}, nil)
 
 // Register once
-mcpruntime.AddTool(rt, &mcp.Tool{Name: "add"}, addHandler)
+mcpkit.AddTool(rt, &mcp.Tool{Name: "add"}, addHandler)
 
 // Library mode
 result, err := rt.CallTool(ctx, "add", args)
@@ -57,14 +57,14 @@ rt.ServeStdio(ctx)
 ### Runtime Creation
 
 ```go
-rt := mcpruntime.New(impl *mcp.Implementation, opts *mcpruntime.Options)
+rt := mcpkit.New(impl *mcp.Implementation, opts *mcpkit.Options)
 ```
 
 ### Tool Registration
 
 ```go
 // Generic with schema inference
-mcpruntime.AddTool(rt, tool, handler)
+mcpkit.AddTool(rt, tool, handler)
 
 // Low-level
 rt.AddToolHandler(tool, handler)
@@ -120,7 +120,7 @@ None (initial release).
 
 ## Links
 
-- [GitHub Repository](https://github.com/grokify/mcpruntime)
-- [Go Package Documentation](https://pkg.go.dev/github.com/grokify/mcpruntime)
+- [GitHub Repository](https://github.com/agentplexus/mcpkit)
+- [Go Package Documentation](https://pkg.go.dev/github.com/agentplexus/mcpkit)
 - [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk)
 - [Model Context Protocol Specification](https://modelcontextprotocol.io/)

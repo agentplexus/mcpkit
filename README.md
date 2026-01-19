@@ -1,4 +1,4 @@
-# MCP Runtime
+# MCPKit
 
 [![Build Status][build-status-svg]][build-status-url]
 [![Lint Status][lint-status-svg]][lint-status-url]
@@ -11,7 +11,7 @@ A library-first runtime for building MCP servers with interchangeable execution 
 
 ## Overview
 
-`mcpruntime` wraps the official [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk) to provide a unified API where tools, prompts, and resources are defined once and can be invoked either:
+`mcpkit` wraps the official [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk) to provide a unified API where tools, prompts, and resources are defined once and can be invoked either:
 
 - **Library mode**: Direct in-process function calls without JSON-RPC overhead
 - **Server mode**: Standard MCP transports (stdio, HTTP, SSE)
@@ -19,7 +19,7 @@ A library-first runtime for building MCP servers with interchangeable execution 
 ## Installation
 
 ```bash
-go get github.com/grokify/mcpruntime
+go get github.com/agentplexus/mcpkit
 ```
 
 ## Quick Start
@@ -36,7 +36,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/grokify/mcpruntime"
+    "github.com/agentplexus/mcpkit"
     "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -50,12 +50,12 @@ type AddOutput struct {
 }
 
 func main() {
-    rt := mcpruntime.New(&mcp.Implementation{
+    rt := mcpkit.New(&mcp.Implementation{
         Name:    "calculator",
         Version: "v1.0.0",
     }, nil)
 
-    mcpruntime.AddTool(rt, &mcp.Tool{
+    mcpkit.AddTool(rt, &mcp.Tool{
         Name:        "add",
         Description: "Add two numbers",
     }, func(ctx context.Context, req *mcp.CallToolRequest, in AddInput) (*mcp.CallToolResult, AddOutput, error) {
@@ -84,7 +84,7 @@ import (
     "context"
     "log"
 
-    "github.com/grokify/mcpruntime"
+    "github.com/agentplexus/mcpkit"
     "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -98,12 +98,12 @@ type AddOutput struct {
 }
 
 func main() {
-    rt := mcpruntime.New(&mcp.Implementation{
+    rt := mcpkit.New(&mcp.Implementation{
         Name:    "calculator",
         Version: "v1.0.0",
     }, nil)
 
-    mcpruntime.AddTool(rt, &mcp.Tool{
+    mcpkit.AddTool(rt, &mcp.Tool{
         Name:        "add",
         Description: "Add two numbers",
     }, func(ctx context.Context, req *mcp.CallToolRequest, in AddInput) (*mcp.CallToolResult, AddOutput, error) {
@@ -128,12 +128,12 @@ import (
     "log"
     "net/http"
 
-    "github.com/grokify/mcpruntime"
+    "github.com/agentplexus/mcpkit"
     "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
 func main() {
-    rt := mcpruntime.New(&mcp.Implementation{
+    rt := mcpkit.New(&mcp.Implementation{
         Name:    "calculator",
         Version: "v1.0.0",
     }, nil)
@@ -155,7 +155,7 @@ MCP (Model Context Protocol) is fundamentally a client-server protocol based on 
 - Building local pipelines
 - Serverless runtimes
 
-`mcpruntime` treats MCP as an "edge protocol" while providing a library-first internal API. Tools registered with `mcpruntime` use the exact same handler signatures as the MCP SDK, ensuring behavior is identical regardless of execution mode.
+`mcpkit` treats MCP as an "edge protocol" while providing a library-first internal API. Tools registered with `mcpkit` use the exact same handler signatures as the MCP SDK, ensuring behavior is identical regardless of execution mode.
 
 ## Key Features
 
@@ -165,7 +165,7 @@ Tools, prompts, and resources are defined once using MCP SDK types:
 
 ```go
 // Register tool
-mcpruntime.AddTool(rt, &mcp.Tool{Name: "calculate"}, handler)
+mcpkit.AddTool(rt, &mcp.Tool{Name: "calculate"}, handler)
 
 // Library mode
 result, err := rt.CallTool(ctx, "calculate", args)
@@ -279,14 +279,14 @@ Based on MCP ecosystem patterns, feature adoption varies significantly:
 ### Runtime Creation
 
 ```go
-rt := mcpruntime.New(impl *mcp.Implementation, opts *mcpruntime.Options)
+rt := mcpkit.New(impl *mcp.Implementation, opts *mcpkit.Options)
 ```
 
 ### Tool Registration
 
 ```go
 // Generic (with schema inference)
-mcpruntime.AddTool(rt, tool *mcp.Tool, handler ToolHandlerFor[In, Out])
+mcpkit.AddTool(rt, tool *mcp.Tool, handler ToolHandlerFor[In, Out])
 
 // Low-level
 rt.AddToolHandler(tool *mcp.Tool, handler mcp.ToolHandler)
@@ -324,17 +324,17 @@ rt.ToolCount() int
 
 MIT License - see LICENSE file for details.
 
- [build-status-svg]: https://github.com/grokify/mcpruntime/actions/workflows/ci.yaml/badge.svg?branch=main
- [build-status-url]: https://github.com/grokify/mcpruntime/actions/workflows/ci.yaml
- [lint-status-svg]: https://github.com/grokify/mcpruntime/actions/workflows/lint.yaml/badge.svg?branch=main
- [lint-status-url]: https://github.com/grokify/mcpruntime/actions/workflows/lint.yaml
- [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/mcpruntime
- [goreport-url]: https://goreportcard.com/report/github.com/grokify/mcpruntime
- [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/mcpruntime
- [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/mcpruntime
+ [build-status-svg]: https://github.com/agentplexus/mcpkit/actions/workflows/ci.yaml/badge.svg?branch=main
+ [build-status-url]: https://github.com/agentplexus/mcpkit/actions/workflows/ci.yaml
+ [lint-status-svg]: https://github.com/agentplexus/mcpkit/actions/workflows/lint.yaml/badge.svg?branch=main
+ [lint-status-url]: https://github.com/agentplexus/mcpkit/actions/workflows/lint.yaml
+ [goreport-svg]: https://goreportcard.com/badge/github.com/agentplexus/mcpkit
+ [goreport-url]: https://goreportcard.com/report/github.com/agentplexus/mcpkit
+ [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/agentplexus/mcpkit
+ [docs-godoc-url]: https://pkg.go.dev/github.com/agentplexus/mcpkit
  [viz-svg]: https://img.shields.io/badge/visualizaton-Go-blue.svg
- [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=grokify%2Fmcpruntime
- [loc-svg]: https://tokei.rs/b1/github/grokify/mcpruntime
- [repo-url]: https://github.com/grokify/mcpruntime
+ [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=grokify%2Fmcpkit
+ [loc-svg]: https://tokei.rs/b1/github/grokify/mcpkit
+ [repo-url]: https://github.com/agentplexus/mcpkit
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-url]: https://github.com/grokify/mcpruntime/blob/master/LICENSE
+ [license-url]: https://github.com/agentplexus/mcpkit/blob/master/LICENSE
