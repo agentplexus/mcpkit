@@ -2,14 +2,49 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-// Package mcpkit provides a library-first runtime for building MCP servers
-// with interchangeable execution modes: in-process library calls and MCP server
-// transports (stdio, HTTP).
+// Package mcpkit provides a toolkit for building MCP (Model Context Protocol)
+// applications in Go.
 //
-// mcpkit wraps the official MCP Go SDK (github.com/modelcontextprotocol/go-sdk)
-// to provide a unified API where tools, prompts, and resources are defined once
-// and can be invoked either directly as library calls or exposed over standard
-// MCP transports.
+// MCPKit is organized into focused subpackages:
+//
+//   - runtime: Core MCP server runtime with tools, prompts, resources, and
+//     multiple transport options (stdio, HTTP, SSE)
+//   - oauth2: OAuth 2.1 Authorization Server with PKCE support for
+//     MCP authentication
+//
+// # Quick Start
+//
+// For building MCP servers, import the runtime package:
+//
+//	import "github.com/agentplexus/mcpkit/runtime"
+//
+//	rt := runtime.New(&mcp.Implementation{
+//	    Name:    "my-server",
+//	    Version: "1.0.0",
+//	}, nil)
+//
+//	// Add tools, prompts, resources
+//	runtime.AddTool(rt, tool, handler)
+//
+//	// Library mode: call directly
+//	result, err := rt.CallTool(ctx, "add", map[string]any{"a": 1, "b": 2})
+//
+//	// Server mode: serve via HTTP
+//	rt.ServeHTTP(ctx, &runtime.HTTPServerOptions{
+//	    Addr: ":8080",
+//	})
+//
+// For OAuth 2.1 authentication with PKCE (required by ChatGPT.com and other
+// MCP clients):
+//
+//	import "github.com/agentplexus/mcpkit/oauth2"
+//
+//	srv, err := oauth2.New(&oauth2.Config{
+//	    Issuer: "https://example.com",
+//	    Users:  map[string]string{"admin": "password"},
+//	})
+//
+// See the individual package documentation for detailed usage.
 //
 // # Design Philosophy
 //
@@ -26,58 +61,4 @@
 // internal API. Tools registered with mcpkit use the exact same handler
 // signatures as the MCP SDK, ensuring behavior is identical regardless of
 // execution mode.
-//
-// # Quick Start
-//
-// Create a runtime, register tools, and use them either directly or via MCP:
-//
-//	// Create runtime
-//	rt := mcpkit.New(&mcp.Implementation{
-//		Name:    "my-server",
-//		Version: "v1.0.0",
-//	}, nil)
-//
-//	// Register a tool using MCP SDK types
-//	type AddInput struct {
-//		A int `json:"a"`
-//		B int `json:"b"`
-//	}
-//	type AddOutput struct {
-//		Sum int `json:"sum"`
-//	}
-//	rt.AddTool(&mcp.Tool{Name: "add"}, func(ctx context.Context, req *mcp.CallToolRequest, in AddInput) (*mcp.CallToolResult, AddOutput, error) {
-//		return nil, AddOutput{Sum: in.A + in.B}, nil
-//	})
-//
-//	// Library mode: call directly
-//	result, err := rt.CallTool(ctx, "add", map[string]any{"a": 1, "b": 2})
-//
-//	// Server mode: expose via stdio
-//	rt.ServeStdio(ctx)
-//
-// # Tool Registration
-//
-// Tools use the exact same types as the MCP SDK:
-//
-//   - [mcp.Tool] for tool metadata
-//   - [mcp.ToolHandlerFor] for typed handlers with automatic schema inference
-//   - [mcp.ToolHandler] for low-level handlers
-//
-// The generic [Runtime.AddTool] method provides automatic input/output schema
-// generation and validation, matching the behavior of [mcp.AddTool].
-//
-// # Prompts and Resources
-//
-// Similarly, prompts and resources use MCP SDK types directly:
-//
-//   - [mcp.Prompt] with [mcp.PromptHandler]
-//   - [mcp.Resource] with [mcp.ResourceHandler]
-//
-// # Transport Adapters
-//
-// When ready to expose capabilities over MCP transports, use:
-//
-//   - [Runtime.ServeStdio] for stdio transport (subprocess)
-//   - [Runtime.ServeHTTP] for HTTP transport
-//   - [Runtime.MCPServer] to access the underlying mcp.Server directly
 package mcpkit

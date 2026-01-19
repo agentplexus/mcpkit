@@ -2,7 +2,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-package mcpkit
+package runtime
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/agentplexus/mcpkit/oauth2server"
+	"github.com/agentplexus/mcpkit/oauth2"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 	"golang.ngrok.com/ngrok"
 	"golang.ngrok.com/ngrok/config"
@@ -242,7 +242,7 @@ func (r *Runtime) ServeHTTP(ctx context.Context, opts *HTTPServerOptions) (*HTTP
 
 	// Set up OAuth 2.1 with PKCE if configured (preferred over legacy OAuth)
 	if opts.OAuth2 != nil {
-		oauth2Srv, err := oauth2server.New(&oauth2server.Config{
+		oauth2Srv, err := oauth2.New(&oauth2.Config{
 			Issuer:             baseURL,
 			Users:              opts.OAuth2.Users,
 			AccessTokenExpiry:  opts.OAuth2.AccessTokenExpiry,

@@ -2,7 +2,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-package oauth2server
+package oauth2
 
 import (
 	"encoding/json"

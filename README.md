@@ -7,11 +7,16 @@
 [![Visualization][viz-svg]][viz-url]
 [![License][license-svg]][license-url]
 
-A library-first runtime for building MCP servers with interchangeable execution modes.
+A toolkit for building MCP (Model Context Protocol) applications in Go.
 
 ## Overview
 
-`mcpkit` wraps the official [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk) to provide a unified API where tools, prompts, and resources are defined once and can be invoked either:
+MCPKit wraps the official [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk) to provide focused packages for building MCP servers:
+
+- **runtime**: Core MCP server runtime with tools, prompts, resources, and multiple transport options (stdio, HTTP, SSE)
+- **oauth2**: OAuth 2.1 Authorization Server with PKCE support for MCP authentication (required by ChatGPT.com)
+
+The runtime package provides a unified API where tools, prompts, and resources are defined once and can be invoked either:
 
 - **Library mode**: Direct in-process function calls without JSON-RPC overhead
 - **Server mode**: Standard MCP transports (stdio, HTTP, SSE)
@@ -36,7 +41,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/agentplexus/mcpkit"
+    "github.com/agentplexus/mcpkit/runtime"
     "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -50,12 +55,12 @@ type AddOutput struct {
 }
 
 func main() {
-    rt := mcpkit.New(&mcp.Implementation{
+    rt := runtime.New(&mcp.Implementation{
         Name:    "calculator",
         Version: "v1.0.0",
     }, nil)
 
-    mcpkit.AddTool(rt, &mcp.Tool{
+    runtime.AddTool(rt, &mcp.Tool{
         Name:        "add",
         Description: "Add two numbers",
     }, func(ctx context.Context, req *mcp.CallToolRequest, in AddInput) (*mcp.CallToolResult, AddOutput, error) {
@@ -84,7 +89,7 @@ import (
     "context"
     "log"
 
-    "github.com/agentplexus/mcpkit"
+    "github.com/agentplexus/mcpkit/runtime"
     "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -98,12 +103,12 @@ type AddOutput struct {
 }
 
 func main() {
-    rt := mcpkit.New(&mcp.Implementation{
+    rt := runtime.New(&mcp.Implementation{
         Name:    "calculator",
         Version: "v1.0.0",
     }, nil)
 
-    mcpkit.AddTool(rt, &mcp.Tool{
+    runtime.AddTool(rt, &mcp.Tool{
         Name:        "add",
         Description: "Add two numbers",
     }, func(ctx context.Context, req *mcp.CallToolRequest, in AddInput) (*mcp.CallToolResult, AddOutput, error) {
@@ -128,12 +133,12 @@ import (
     "log"
     "net/http"
 
-    "github.com/agentplexus/mcpkit"
+    "github.com/agentplexus/mcpkit/runtime"
     "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
 func main() {
-    rt := mcpkit.New(&mcp.Implementation{
+    rt := runtime.New(&mcp.Implementation{
         Name:    "calculator",
         Version: "v1.0.0",
     }, nil)
@@ -146,6 +151,49 @@ func main() {
 }
 ```
 
+### HTTP Server with OAuth 2.1 Authentication
+
+For public MCP servers that need authentication (required by ChatGPT.com):
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+
+    "github.com/agentplexus/mcpkit/runtime"
+    "github.com/modelcontextprotocol/go-sdk/mcp"
+)
+
+func main() {
+    rt := runtime.New(&mcp.Implementation{
+        Name:    "my-server",
+        Version: "v1.0.0",
+    }, nil)
+
+    // Register tools...
+
+    ctx := context.Background()
+    result, err := rt.ServeHTTP(ctx, &runtime.HTTPServerOptions{
+        Addr: ":8080",
+        OAuth2: &runtime.OAuth2Options{
+            Users: map[string]string{"admin": "password"},
+        },
+        OnReady: func(r *runtime.HTTPServerResult) {
+            fmt.Printf("MCP endpoint: %s\n", r.LocalURL)
+            fmt.Printf("OAuth2 Client ID: %s\n", r.OAuth2.ClientID)
+            fmt.Printf("OAuth2 Client Secret: %s\n", r.OAuth2.ClientSecret)
+        },
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    _ = result
+}
+```
+
 ## Design Philosophy
 
 MCP (Model Context Protocol) is fundamentally a client-server protocol based on JSON-RPC. However, many use cases benefit from invoking MCP capabilities directly in-process:
@@ -155,7 +203,7 @@ MCP (Model Context Protocol) is fundamentally a client-server protocol based on 
 - Building local pipelines
 - Serverless runtimes
 
-`mcpkit` treats MCP as an "edge protocol" while providing a library-first internal API. Tools registered with `mcpkit` use the exact same handler signatures as the MCP SDK, ensuring behavior is identical regardless of execution mode.
+MCPKit treats MCP as an "edge protocol" while providing a library-first internal API. Tools registered with MCPKit use the exact same handler signatures as the MCP SDK, ensuring behavior is identical regardless of execution mode.
 
 ## Key Features
 
@@ -165,7 +213,7 @@ Tools, prompts, and resources are defined once using MCP SDK types:
 
 ```go
 // Register tool
-mcpkit.AddTool(rt, &mcp.Tool{Name: "calculate"}, handler)
+runtime.AddTool(rt, &mcp.Tool{Name: "calculate"}, handler)
 
 // Library mode
 result, err := rt.CallTool(ctx, "calculate", args)
@@ -274,19 +322,34 @@ Based on MCP ecosystem patterns, feature adoption varies significantly:
 - REST-like resource hierarchies
 - When clients need resource-specific features (subscriptions, caching hints)
 
+## Package Structure
+
+```
+github.com/agentplexus/mcpkit
+├── runtime/     # Core MCP server runtime
+│   ├── Runtime type (New, CallTool, ServeStdio, ServeHTTP, etc.)
+│   ├── Tool, Prompt, Resource registration
+│   └── OAuth options for HTTP serving
+├── oauth2/      # OAuth 2.1 Authorization Server
+│   ├── Authorization Code Flow with PKCE (RFC 7636)
+│   ├── Dynamic Client Registration (RFC 7591)
+│   └── Authorization Server Metadata (RFC 8414)
+└── doc.go       # Package documentation
+```
+
 ## API Reference
 
 ### Runtime Creation
 
 ```go
-rt := mcpkit.New(impl *mcp.Implementation, opts *mcpkit.Options)
+rt := runtime.New(impl *mcp.Implementation, opts *runtime.Options)
 ```
 
 ### Tool Registration
 
 ```go
 // Generic (with schema inference)
-mcpkit.AddTool(rt, tool *mcp.Tool, handler ToolHandlerFor[In, Out])
+runtime.AddTool(rt, tool *mcp.Tool, handler ToolHandlerFor[In, Out])
 
 // Low-level
 rt.AddToolHandler(tool *mcp.Tool, handler mcp.ToolHandler)
@@ -306,6 +369,7 @@ result, err := rt.ReadResource(ctx, uri string)
 rt.ServeStdio(ctx)
 rt.ServeIO(ctx, reader, writer)
 rt.Serve(ctx, transport)
+rt.ServeHTTP(ctx, opts *runtime.HTTPServerOptions) // blocks until context cancelled
 rt.StreamableHTTPHandler(opts) // returns http.Handler
 rt.SSEHandler(opts)            // returns http.Handler
 ```

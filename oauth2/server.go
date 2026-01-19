@@ -2,7 +2,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
-// Package oauth2server provides a standalone OAuth 2.1 Authorization Server
+// Package oauth2 provides a standalone OAuth 2.1 Authorization Server
 // with PKCE support, designed for MCP server authentication.
 //
 // Features:
@@ -14,7 +14,7 @@
 //
 // Usage:
 //
-//	srv, err := oauth2server.New(&oauth2server.Config{
+//	srv, err := oauth2.New(&oauth2.Config{
 //	    Issuer:   "https://example.com",
 //	    Users:    map[string]string{"admin": "password"},
 //	})
@@ -27,7 +27,7 @@
 //	mux.Handle("/oauth/token", srv.TokenHandler())
 //	mux.Handle("/oauth/register", srv.RegistrationHandler())
 //	mux.Handle("/.well-known/oauth-authorization-server", srv.MetadataHandler())
-package oauth2server
+package oauth2
 
 import (
 	"context"
@@ -189,7 +189,7 @@ func New(cfg *Config) (*Server, error) {
 		storage:       storage,
 		paths:         paths,
 		authenticator: authenticator,
-		logger:        logger.With("component", "oauth2server"),
+		logger:        logger.With("component", "oauth2"),
 		debug:         cfg.Debug,
 	}, nil
 }
