@@ -733,8 +733,17 @@ func (s *Server) redirectWithError(w http.ResponseWriter, r *http.Request, redir
 		return
 	}
 
-	u, err := url.Parse(redirectURI)
+	// Normalize backslashes to forward slashes before parsing
+	normalized := strings.ReplaceAll(redirectURI, "\\", "/")
+
+	u, err := url.Parse(normalized)
 	if err != nil {
+		s.renderLoginError(w, description)
+		return
+	}
+
+	// Only allow local redirects (no hostname)
+	if u.Hostname() != "" {
 		s.renderLoginError(w, description)
 		return
 	}
