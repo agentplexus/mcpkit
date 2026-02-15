@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/grokify/mogo v0.73.0
-	github.com/modelcontextprotocol/go-sdk v1.2.0
+	github.com/modelcontextprotocol/go-sdk v1.3.0
 	golang.ngrok.com/ngrok v1.13.0
 )
 
