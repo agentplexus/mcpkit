@@ -742,11 +742,8 @@ func (s *Server) redirectWithError(w http.ResponseWriter, r *http.Request, redir
 		return
 	}
 
-	// Only allow local redirects (no hostname)
-	if u.Hostname() != "" {
-		s.renderLoginError(w, description)
-		return
-	}
+	// Note: redirect_uri is validated against client.RedirectURIs in handleAuthorizationGet
+	// BEFORE this function is called. External URIs are allowed if they're registered.
 
 	q := u.Query()
 	q.Set("error", errCode)
