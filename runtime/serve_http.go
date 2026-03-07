@@ -344,6 +344,7 @@ func (r *Runtime) ServeHTTP(ctx context.Context, opts *HTTPServerOptions) (*HTTP
 	}
 
 	// Handle graceful shutdown
+	//nolint:gosec // G118: context.Background is intentional - ctx is already cancelled when shutdown runs
 	go func() {
 		<-ctx.Done()
 		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

@@ -178,7 +178,7 @@ func (s *Server) registrationHandler() http.Handler {
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusCreated)
-		_ = json.NewEncoder(w).Encode(resp)
+		_ = json.NewEncoder(w).Encode(resp) //nolint:gosec // G117: OAuth response contains client_secret by spec
 	})
 }
 
@@ -262,6 +262,8 @@ func (s *Server) handleAuthorizationGet(w http.ResponseWriter, r *http.Request) 
 
 // handleAuthorizationPost processes the login form submission.
 func (s *Server) handleAuthorizationPost(w http.ResponseWriter, r *http.Request) {
+	// Limit request body to 1MB to prevent memory exhaustion
+	r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
 	if err := r.ParseForm(); err != nil {
 		s.renderLoginError(w, "Failed to parse form")
 		return
@@ -368,6 +370,8 @@ func (s *Server) tokenHandler() http.Handler {
 			return
 		}
 
+		// Limit request body to 1MB to prevent memory exhaustion
+		r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
 		if err := r.ParseForm(); err != nil {
 			s.logDebug("token error: failed to parse form", "error", err)
 			writeOAuthError(w, http.StatusBadRequest, ErrorInvalidRequest, "Failed to parse form")
@@ -557,7 +561,7 @@ func (s *Server) handleAuthorizationCodeGrant(w http.ResponseWriter, req *TokenR
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")
 	w.Header().Set("Pragma", "no-cache")
-	_ = json.NewEncoder(w).Encode(resp)
+	_ = json.NewEncoder(w).Encode(resp) //nolint:gosec // G117: OAuth token response contains access_token by spec
 }
 
 // handleRefreshTokenGrant handles the refresh_token grant type.
@@ -637,7 +641,7 @@ func (s *Server) handleRefreshTokenGrant(w http.ResponseWriter, req *TokenReques
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Cache-Control", "no-store")
 	w.Header().Set("Pragma", "no-cache")
-	_ = json.NewEncoder(w).Encode(resp)
+	_ = json.NewEncoder(w).Encode(resp) //nolint:gosec // G117: OAuth token response contains access_token by spec
 }
 
 // metadataHandler returns the authorization server metadata (RFC 8414).
@@ -748,22 +752,7 @@ func (s *Server) redirectWithError(w http.ResponseWriter, r *http.Request, redir
 
 	// Note: redirect_uri is validated against client.RedirectURIs in handleAuthorizationGet
 	// BEFORE this function is called. External URIs are allowed if they're registered.
-	//
-	// As a defense-in-depth measure, ensure we only redirect to relative URLs or to the
-	// same host as the current request. This prevents open redirects if this helper is
-	// ever called with an unvalidated absolute URL.
-	if u.IsAbs() && u.Hostname() != "" {
-		// Extract hostname from r.Host (which may include a port).
-		requestHost := r.Host
-		if h, _, splitErr := strings.Cut(requestHost, ":"); splitErr == nil {
-			requestHost = h
-		}
-
-		if !strings.EqualFold(u.Hostname(), requestHost) {
-			s.renderLoginError(w, description)
-			return
-		}
-	}
+	// Redirecting to external hosts is expected OAuth behavior (client callback URLs).
 
 	q := u.Query()
 	q.Set("error", errCode)

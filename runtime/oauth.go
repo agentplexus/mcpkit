@@ -189,7 +189,7 @@ func (s *oauthServer) TokenHandler() http.Handler {
 		w.Header().Set("Content-Type", "application/json")
 		w.Header().Set("Cache-Control", "no-store")
 		w.Header().Set("Pragma", "no-cache")
-		_ = json.NewEncoder(w).Encode(resp)
+		_ = json.NewEncoder(w).Encode(resp) //nolint:gosec // G117: OAuth token response contains access_token by spec
 	})
 }
 
