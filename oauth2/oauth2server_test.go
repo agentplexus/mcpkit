@@ -520,7 +520,7 @@ func TestBearerAuthMiddleware(t *testing.T) {
 		req, _ := http.NewRequest(http.MethodGet, ts.URL, nil)
 		req.Header.Set("Authorization", "Bearer invalid-token")
 
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := http.DefaultClient.Do(req) //nolint:gosec // G704: Test uses httptest server URL
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}

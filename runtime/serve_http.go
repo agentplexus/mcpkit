@@ -61,6 +61,8 @@ type HTTPServerOptions struct {
 }
 
 // NgrokOptions configures ngrok tunneling.
+//
+//nolint:gosec // G117: Config field for auth token, not a hardcoded secret
 type NgrokOptions struct {
 	// Authtoken is the ngrok authentication token.
 	// If empty, uses the NGROK_AUTHTOKEN environment variable.
@@ -72,6 +74,8 @@ type NgrokOptions struct {
 }
 
 // OAuth2Options configures OAuth 2.1 Authorization Code + PKCE authentication.
+//
+//nolint:gosec // G117: OAuth struct fields, not hardcoded secrets
 type OAuth2Options struct {
 	// Users is a map of username to password for authentication.
 	// At least one user must be configured.
@@ -110,6 +114,8 @@ type OAuth2Options struct {
 }
 
 // OAuth2Credentials contains the OAuth 2.1 server information.
+//
+//nolint:gosec // G117: OAuth struct fields, not hardcoded secrets
 type OAuth2Credentials struct {
 	// ClientID is the pre-registered client ID.
 	ClientID string

@@ -105,6 +105,7 @@ type PathConfig struct {
 
 // DefaultPaths returns the default OAuth endpoint paths.
 func DefaultPaths() *PathConfig {
+	//nolint:gosec // G101: These are URL paths, not credentials
 	return &PathConfig{
 		Authorization: "/oauth/authorize",
 		Token:         "/oauth/token",

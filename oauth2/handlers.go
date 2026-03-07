@@ -46,7 +46,7 @@ type RegistrationRequest struct {
 // RegistrationResponse is the DCR response body (RFC 7591).
 type RegistrationResponse struct {
 	ClientID                string   `json:"client_id"`
-	ClientSecret            string   `json:"client_secret,omitempty"`
+	ClientSecret            string   `json:"client_secret,omitempty"` //nolint:gosec // G117: OAuth field, not a hardcoded secret
 	ClientName              string   `json:"client_name,omitempty"`
 	RedirectURIs            []string `json:"redirect_uris"`
 	GrantTypes              []string `json:"grant_types"`
@@ -55,6 +55,8 @@ type RegistrationResponse struct {
 }
 
 // TokenRequest represents a token endpoint request.
+//
+//nolint:gosec // G117: OAuth struct fields, not hardcoded secrets
 type TokenRequest struct {
 	GrantType    string
 	Code         string
@@ -67,6 +69,8 @@ type TokenRequest struct {
 }
 
 // TokenResponse is the token endpoint response body.
+//
+//nolint:gosec // G117: OAuth struct fields, not hardcoded secrets
 type TokenResponse struct {
 	AccessToken  string `json:"access_token"`
 	TokenType    string `json:"token_type"`

@@ -42,6 +42,8 @@ type Storage interface {
 }
 
 // Client represents a registered OAuth client.
+//
+//nolint:gosec // G117: OAuth struct fields, not hardcoded secrets
 type Client struct {
 	// ClientID is the unique client identifier.
 	ClientID string `json:"client_id"`
@@ -105,6 +107,8 @@ type AuthorizationCode struct {
 }
 
 // TokenInfo represents an issued access token.
+//
+//nolint:gosec // G117: OAuth struct fields, not hardcoded secrets
 type TokenInfo struct {
 	// AccessToken is the access token value.
 	AccessToken string `json:"access_token"`

@@ -74,7 +74,7 @@ func TestOAuthServer_TokenEndpoint(t *testing.T) {
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 		req.SetBasicAuth("test-client-id", "test-client-secret")
 
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := http.DefaultClient.Do(req) //nolint:gosec // G704: Test uses httptest server URL
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
@@ -196,7 +196,7 @@ func TestOAuthServer_BearerAuthMiddleware(t *testing.T) {
 		req, _ := http.NewRequest(http.MethodGet, protectedServer.URL, nil)
 		req.Header.Set("Authorization", "Bearer "+tokenResp.AccessToken)
 
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := http.DefaultClient.Do(req) //nolint:gosec // G704: Test uses httptest server URL
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
@@ -215,7 +215,7 @@ func TestOAuthServer_BearerAuthMiddleware(t *testing.T) {
 		req, _ := http.NewRequest(http.MethodGet, protectedServer.URL, nil)
 		req.Header.Set("Authorization", "Bearer invalid-token")
 
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := http.DefaultClient.Do(req) //nolint:gosec // G704: Test uses httptest server URL
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
@@ -233,7 +233,7 @@ func TestOAuthServer_BearerAuthMiddleware(t *testing.T) {
 	t.Run("missing_token", func(t *testing.T) {
 		req, _ := http.NewRequest(http.MethodGet, protectedServer.URL, nil)
 
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := http.DefaultClient.Do(req) //nolint:gosec // G704: Test uses httptest server URL
 		if err != nil {
 			t.Fatalf("request failed: %v", err)
 		}
@@ -377,7 +377,7 @@ func TestServeHTTP_WithOAuth(t *testing.T) {
 	req.Header.Set("Authorization", "Bearer "+token.AccessToken)
 	req.Header.Set("Accept", "text/event-stream")
 
-	resp, err = http.DefaultClient.Do(req)
+	resp, err = http.DefaultClient.Do(req) //nolint:gosec // G704: Test uses httptest server URL
 	if err != nil {
 		t.Fatalf("MCP request with token failed: %v", err)
 	}

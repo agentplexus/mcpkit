@@ -17,6 +17,8 @@ import (
 )
 
 // OAuthOptions configures OAuth 2.0 client credentials grant authentication.
+//
+//nolint:gosec // G117: OAuth struct fields, not hardcoded secrets
 type OAuthOptions struct {
 	// ClientID is the OAuth client ID. If empty, one will be auto-generated.
 	ClientID string
@@ -33,6 +35,8 @@ type OAuthOptions struct {
 
 // OAuthCredentials contains the OAuth credentials for the server.
 // This is returned in HTTPServerResult when OAuth is enabled.
+//
+//nolint:gosec // G117: OAuth struct fields, not hardcoded secrets
 type OAuthCredentials struct {
 	// ClientID is the OAuth client ID (provided or auto-generated).
 	ClientID string
@@ -56,6 +60,8 @@ type oauthServer struct {
 }
 
 // tokenResponse is the OAuth 2.0 token response.
+//
+//nolint:gosec // G117: OAuth struct fields, not hardcoded secrets
 type tokenResponse struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
