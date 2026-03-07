@@ -24,7 +24,7 @@ The runtime package provides a unified API where tools, prompts, and resources a
 ## Installation
 
 ```bash
-go get github.com/agentplexus/mcpkit
+go get github.com/plexusone/mcpkit
 ```
 
 ## Quick Start
@@ -41,7 +41,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/agentplexus/mcpkit/runtime"
+    "github.com/plexusone/mcpkit/runtime"
     "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -89,7 +89,7 @@ import (
     "context"
     "log"
 
-    "github.com/agentplexus/mcpkit/runtime"
+    "github.com/plexusone/mcpkit/runtime"
     "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -133,7 +133,7 @@ import (
     "log"
     "net/http"
 
-    "github.com/agentplexus/mcpkit/runtime"
+    "github.com/plexusone/mcpkit/runtime"
     "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -163,7 +163,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/agentplexus/mcpkit/runtime"
+    "github.com/plexusone/mcpkit/runtime"
     "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -325,7 +325,7 @@ Based on MCP ecosystem patterns, feature adoption varies significantly:
 ## Package Structure
 
 ```
-github.com/agentplexus/mcpkit
+github.com/plexusone/mcpkit
 ├── runtime/     # Core MCP server runtime
 │   ├── Runtime type (New, CallTool, ServeStdio, ServeHTTP, etc.)
 │   ├── Tool, Prompt, Resource registration
@@ -388,17 +388,17 @@ rt.ToolCount() int
 
 MIT License - see LICENSE file for details.
 
- [build-status-svg]: https://github.com/agentplexus/mcpkit/actions/workflows/ci.yaml/badge.svg?branch=main
- [build-status-url]: https://github.com/agentplexus/mcpkit/actions/workflows/ci.yaml
- [lint-status-svg]: https://github.com/agentplexus/mcpkit/actions/workflows/lint.yaml/badge.svg?branch=main
- [lint-status-url]: https://github.com/agentplexus/mcpkit/actions/workflows/lint.yaml
- [goreport-svg]: https://goreportcard.com/badge/github.com/agentplexus/mcpkit
- [goreport-url]: https://goreportcard.com/report/github.com/agentplexus/mcpkit
- [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/agentplexus/mcpkit
- [docs-godoc-url]: https://pkg.go.dev/github.com/agentplexus/mcpkit
+ [build-status-svg]: https://github.com/plexusone/mcpkit/actions/workflows/ci.yaml/badge.svg?branch=main
+ [build-status-url]: https://github.com/plexusone/mcpkit/actions/workflows/ci.yaml
+ [lint-status-svg]: https://github.com/plexusone/mcpkit/actions/workflows/lint.yaml/badge.svg?branch=main
+ [lint-status-url]: https://github.com/plexusone/mcpkit/actions/workflows/lint.yaml
+ [goreport-svg]: https://goreportcard.com/badge/github.com/plexusone/mcpkit
+ [goreport-url]: https://goreportcard.com/report/github.com/plexusone/mcpkit
+ [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/plexusone/mcpkit
+ [docs-godoc-url]: https://pkg.go.dev/github.com/plexusone/mcpkit
  [viz-svg]: https://img.shields.io/badge/visualizaton-Go-blue.svg
- [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=grokify%2Fmcpkit
- [loc-svg]: https://tokei.rs/b1/github/grokify/mcpkit
- [repo-url]: https://github.com/agentplexus/mcpkit
+ [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=plexusone%2Fmcpkit
+ [loc-svg]: https://tokei.rs/b1/github/plexusone/mcpkit
+ [repo-url]: https://github.com/plexusone/mcpkit
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-url]: https://github.com/agentplexus/mcpkit/blob/master/LICENSE
+ [license-url]: https://github.com/plexusone/mcpkit/blob/master/LICENSE

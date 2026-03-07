@@ -9,7 +9,7 @@ This release adds OAuth 2.1 authentication and HTTP server capabilities to mcpki
 ## Installation
 
 ```bash
-go get github.com/agentplexus/mcpkit@v0.2.0
+go get github.com/plexusone/mcpkit@v0.2.0
 ```
 
 Requires Go 1.23+ and MCP Go SDK v1.2.0+.
@@ -141,8 +141,8 @@ New dependencies added:
 
 ## Links
 
-- [GitHub Repository](https://github.com/agentplexus/mcpkit)
-- [Go Package Documentation](https://pkg.go.dev/github.com/agentplexus/mcpkit)
+- [GitHub Repository](https://github.com/plexusone/mcpkit)
+- [Go Package Documentation](https://pkg.go.dev/github.com/plexusone/mcpkit)
 - [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk)
 - [Model Context Protocol Specification](https://modelcontextprotocol.io/)
 - [ChatGPT MCP Integration Guide](https://platform.openai.com/docs/actions/mcp)

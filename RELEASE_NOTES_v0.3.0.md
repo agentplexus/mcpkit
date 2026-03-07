@@ -4,7 +4,7 @@
 
 ## Overview
 
-This release marks the transition of the project to its new home as **MCPKit** under `github.com/agentplexus/mcpkit`. The project has been restructured into focused subpackages for better organization and future growth:
+This release marks the transition of the project to its new home as **MCPKit** under `github.com/plexusone/mcpkit`. The project has been restructured into focused subpackages for better organization and future growth:
 
 - **`runtime/`** - Core MCP server runtime with tools, prompts, resources, and transports
 - **`oauth2/`** - OAuth 2.1 Authorization Server with PKCE support
@@ -14,14 +14,14 @@ This release also includes error handling improvements following Go best practic
 ## Installation
 
 ```bash
-go get github.com/agentplexus/mcpkit@v0.3.0
+go get github.com/plexusone/mcpkit@v0.3.0
 ```
 
 Requires Go 1.24+ and MCP Go SDK v1.2.0+.
 
 ## Highlights
 
-- **Project renamed** to MCPKit under `github.com/agentplexus/mcpkit`
+- **Project renamed** to MCPKit under `github.com/plexusone/mcpkit`
 - **Restructured** into focused subpackages: `runtime/` and `oauth2/`
 - **Improved error handling** following Go best practices
 
@@ -37,8 +37,8 @@ import "github.com/grokify/mcpruntime"
 import "github.com/grokify/mcpruntime/oauth2server"
 
 // After (v0.3.0)
-import "github.com/agentplexus/mcpkit/runtime"
-import "github.com/agentplexus/mcpkit/oauth2"
+import "github.com/plexusone/mcpkit/runtime"
+import "github.com/plexusone/mcpkit/oauth2"
 ```
 
 ### Package Name Changes
@@ -61,7 +61,7 @@ import "github.com/grokify/mcpruntime/oauth2server"
 srv, err := oauth2server.New(&oauth2server.Config{...})
 
 // After (v0.3.0)
-import "github.com/agentplexus/mcpkit/oauth2"
+import "github.com/plexusone/mcpkit/oauth2"
 srv, err := oauth2.New(&oauth2.Config{...})
 ```
 
@@ -71,12 +71,12 @@ srv, err := oauth2.New(&oauth2.Config{...})
 
 1. **Update go.mod**:
    ```bash
-   go get github.com/agentplexus/mcpkit@v0.3.0
+   go get github.com/plexusone/mcpkit@v0.3.0
    ```
 
 2. **Update imports** in all Go files:
-   - Replace `github.com/grokify/mcpruntime` with `github.com/agentplexus/mcpkit/runtime`
-   - Replace `github.com/grokify/mcpruntime/oauth2server` with `github.com/agentplexus/mcpkit/oauth2`
+   - Replace `github.com/grokify/mcpruntime` with `github.com/plexusone/mcpkit/runtime`
+   - Replace `github.com/grokify/mcpruntime/oauth2server` with `github.com/plexusone/mcpkit/oauth2`
 
 3. **Update package references**:
    - Replace `mcpruntime.` with `runtime.`
@@ -92,8 +92,8 @@ srv, err := oauth2.New(&oauth2.Config{...})
 ```bash
 # In your project directory
 find . -name "*.go" -exec sed -i '' \
-  -e 's|github.com/grokify/mcpruntime/oauth2server|github.com/agentplexus/mcpkit/oauth2|g' \
-  -e 's|github.com/grokify/mcpruntime|github.com/agentplexus/mcpkit/runtime|g' \
+  -e 's|github.com/grokify/mcpruntime/oauth2server|github.com/plexusone/mcpkit/oauth2|g' \
+  -e 's|github.com/grokify/mcpruntime|github.com/plexusone/mcpkit/runtime|g' \
   -e 's|mcpruntime\.|runtime.|g' \
   -e 's|oauth2server\.|oauth2.|g' {} \;
 go mod tidy
@@ -103,7 +103,7 @@ go mod tidy
 
 ### Changed
 
-- Module path changed from `github.com/grokify/mcpruntime` to `github.com/agentplexus/mcpkit`
+- Module path changed from `github.com/grokify/mcpruntime` to `github.com/plexusone/mcpkit`
 - Core runtime code moved to `runtime/` subpackage
 - OAuth2 server moved from `oauth2server/` to `oauth2/`
 - Package references changed from `mcpkit.` to `runtime.` for runtime types
@@ -116,7 +116,7 @@ go mod tidy
 ## Package Structure
 
 ```
-github.com/agentplexus/mcpkit
+github.com/plexusone/mcpkit
 ├── runtime/     # Core MCP server runtime
 │   ├── Runtime type (New, CallTool, ServeStdio, ServeHTTP, etc.)
 │   ├── Tool, Prompt, Resource registration
@@ -148,7 +148,7 @@ All APIs remain functionally identical to v0.2.0. Only the import paths and pack
 
 ## Links
 
-- [GitHub Repository](https://github.com/agentplexus/mcpkit)
-- [Go Package Documentation](https://pkg.go.dev/github.com/agentplexus/mcpkit)
+- [GitHub Repository](https://github.com/plexusone/mcpkit)
+- [Go Package Documentation](https://pkg.go.dev/github.com/plexusone/mcpkit)
 - [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk)
 - [Model Context Protocol Specification](https://modelcontextprotocol.io/)

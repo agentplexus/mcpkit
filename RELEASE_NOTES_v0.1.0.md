@@ -9,7 +9,7 @@ This is the initial release of `mcpkit`, a library-first runtime for building MC
 ## Installation
 
 ```bash
-go get github.com/agentplexus/mcpkit@v0.1.0
+go get github.com/plexusone/mcpkit@v0.1.0
 ```
 
 Requires Go 1.23+ and MCP Go SDK v1.2.0+.
@@ -120,7 +120,7 @@ None (initial release).
 
 ## Links
 
-- [GitHub Repository](https://github.com/agentplexus/mcpkit)
-- [Go Package Documentation](https://pkg.go.dev/github.com/agentplexus/mcpkit)
+- [GitHub Repository](https://github.com/plexusone/mcpkit)
+- [Go Package Documentation](https://pkg.go.dev/github.com/plexusone/mcpkit)
 - [MCP Go SDK](https://github.com/modelcontextprotocol/go-sdk)
 - [Model Context Protocol Specification](https://modelcontextprotocol.io/)

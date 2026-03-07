@@ -9,7 +9,7 @@ This is a security patch release that fixes an open URL redirect vulnerability i
 ## Installation
 
 ```bash
-go get github.com/agentplexus/mcpkit@v0.3.1
+go get github.com/plexusone/mcpkit@v0.3.1
 ```
 
 ## Security Fix
@@ -36,7 +36,7 @@ go get github.com/agentplexus/mcpkit@v0.3.1
 This is a drop-in replacement for v0.3.0:
 
 ```bash
-go get github.com/agentplexus/mcpkit@v0.3.1
+go get github.com/plexusone/mcpkit@v0.3.1
 ```
 
 No code changes required unless you were relying on the wildcard `"*"` redirect URI behavior (which was insecure).
@@ -47,5 +47,5 @@ No code changes required unless you were relying on the wildcard `"*"` redirect 
 
 ## Links
 
-- [GitHub Repository](https://github.com/agentplexus/mcpkit)
-- [Go Package Documentation](https://pkg.go.dev/github.com/agentplexus/mcpkit)
+- [GitHub Repository](https://github.com/plexusone/mcpkit)
+- [Go Package Documentation](https://pkg.go.dev/github.com/plexusone/mcpkit)
